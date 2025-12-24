@@ -33,12 +33,17 @@ public class Store {
         }
 
         if (id < 0) {
-            return Store.FUNC_FLAG_NOT_FOUND_LIST_VARIETION;
+            if (currentPrice <= 0) {
+                return FUNC_FLAG_FOUND_LIST_VARIETION;
+            } else {
+                return Store.FUNC_FLAG_NOT_FOUND_LIST_VARIETION;
+            }
         }
 
         int howManyItemsINeed = (int) (currentPrice / sortedItems[id].cost());
         int result = Store.FUNC_FLAG_NOT_FOUND_LIST_VARIETION;
         double itemPrice;
+        boolean loopStopFlag = false;
 
         if (currentPrice % sortedItems[id].cost() == 0) {
             // can full
@@ -49,7 +54,7 @@ public class Store {
             }
         }
 
-        for (int i = sortedItems[id].getCount(); i >= 0; i--) {
+        for (int i = sortedItems[id].getCount(); i > 0; i--) {
             itemPrice = sortedItems[id].cost() * i;
 
             if (itemPrice > currentPrice) {
@@ -60,20 +65,23 @@ public class Store {
             if (result == Store.FUNC_FLAG_FOUND_LIST_VARIETION) {
                 // found list variation and need to print this item
                 // as it was part of list variation
-                // --remove
-                // System.out.println("I: " + i);
-                // System.out.println("currentPrice: " + currentPrice);
-                // System.out.println("Item cost: " + sortedItems[id].cost());
-                // System.out.println("Item price: " + itemPrice);
-                // --
                 System.out.println(sortedItems[id].getName() + ":@ " + (sortedItems[id].cost() * i));
+                // return result;
+                loopStopFlag = true;
                 break;
             } else if (result == Store.REQ_GUARD_ALERT) {
-                return Store.REQ_GUARD_ALERT;
+                // return Store.REQ_GUARD_ALERT;
+                loopStopFlag = true;
+                break;
             }
         }
 
-        return result;
+        if (loopStopFlag) {
+            return result;
+        } else {
+            return printPurchaseListForClientReq(sortedItems, id - 1, currentPrice);
+        }
+
     }
 
     public void printPurchaseListForClient(Client client) {

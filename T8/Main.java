@@ -47,6 +47,10 @@ public class Main {
          * use case 5: cannot make a list not enoth items
          * budget = 10
          * items [{1,3}]
+         * 
+         * use case 6: one item bigger the others ok
+         * budget = 5 * 4 + 5 * 2 = 20 + 10 = 30
+         * items [{40, 2}, {5, 4}, {5, 2}]
          */
 
         // use case 1
@@ -68,7 +72,12 @@ public class Main {
         // client.addItemToBuy(new Item("PS-4", 2, 2));
 
         // use case 5:
-        Client client = new Client("Avraham", 30);
+        // Client client = new Client("Avraham", 30);
+        // client.addItemToBuy(new Item("PS-5", 1, 4));
+        // client.addItemToBuy(new Item("PS-4", 1, 2));
+
+        Client client = new Client("Avraham", 6);
+        client.addItemToBuy(new Item("X-box", 29, 4));
         client.addItemToBuy(new Item("PS-5", 1, 4));
         client.addItemToBuy(new Item("PS-4", 1, 2));
 
